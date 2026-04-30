@@ -155,7 +155,7 @@ void handleControlCommand(const String &line) {
     upper.toUpperCase();
 
     if (upper == "HELP") {
-        Serial.println("Commands: PLAY, PAUSE, TOGGLE, STOP, SEEKMS <ms>, BPM <40-260>, SPD <0.2-3.0>, BRI <0-255>, MODE <fixed|pitch|rainbow|alternate>, PMODE <continuous|guided>, SONG <0-3>, LIVEFB <0|1>, BASE <r g b>, STATUS, <col>");
+        Serial.println("Commands: PLAY, PAUSE, TOGGLE, STOP, SEEKMS <ms>, BPM <40-260>, SPD <0.2-3.0>, BRI <0-255>, MODE <fixed|pitch|rainbow|alternate>, PMODE <continuous|guided>, SONG <0-10>, LIVEFB <0|1>, BASE <r g b>, STATUS, <col>");
         return;
     }
 

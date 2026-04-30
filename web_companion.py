@@ -200,6 +200,13 @@ HTML = """<!doctype html>
             <option value="1">Get Lucky</option>
             <option value="2">Imagine</option>
             <option value="3">Wheels on the Bus</option>
+            <option value="4">Fur Elise</option>
+            <option value="5">Super Mario 64 Medley</option>
+            <option value="6">Super Mario Bros Main Theme</option>
+            <option value="7">The Entertainer</option>
+            <option value="8">Wii Mii Channel</option>
+            <option value="9">Twinkle Twinkle Little Star</option>
+            <option value="10">Stairway to Heaven</option>
           </select>
           <button class="primary" onclick="selectOnboardSong(onboardSong.value)">Load</button>
         </div>
