@@ -210,7 +210,8 @@ HTML = """<!doctype html>
           </select>
           <button class="primary" onclick="selectOnboardSong(onboardSong.value)">Load</button>
         </div>
-        <div style="color:var(--muted);font-size:12px">All songs are precompiled; switching does not require reflashing.</div>
+        <div id="fwSongHint" style="margin-top:8px;font-size:12px;color:var(--warn)"></div>
+        <div style="color:var(--muted);font-size:12px">Songs are compiled into firmware. Use latest <code>web_companion.py</code> so this list matches <code>song_count</code> in Live Status.</div>
       </div>
 
       <div class="card span12">
@@ -278,6 +279,14 @@ HTML = """<!doctype html>
       if(!seekDragging && Date.now()>seekIgnoreUntilMs && t>=0){
         seek.value=t;
         seekv.textContent=(t/1000).toFixed(1)+'s';
+      }
+      const sc=parseInt(d.status.song_count||'0',10);
+      const listed=document.getElementById('onboardSong').options.length;
+      const hint=document.getElementById('fwSongHint');
+      if(sc>0 && sc!==listed){
+        hint.textContent=`Firmware reports ${sc} songs but this page lists ${listed}. Git pull, restart this app (stop Python and run again), hard-refresh browser (⌘⇧R).`;
+      }else{
+        hint.textContent='';
       }
     }
     setInterval(poll,600);

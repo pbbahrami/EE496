@@ -262,8 +262,15 @@ void handleControlCommand(const String &line) {
     if (upper.startsWith("SONG ")) {
         const int split = line.indexOf(' ');
         const int idx = line.substring(split + 1).toInt();
-        gPlayback.setSongIndex(static_cast<uint8_t>(max(0, idx)));
-        Serial.printf("song_index=%u song_name=%s\n", gPlayback.songIndex(), gPlayback.songName());
+        const uint8_t n = gPlayback.songCount();
+        const int hi = (n == 0) ? 0 : static_cast<int>(n) - 1;
+        const int clamped = constrain(idx, 0, hi);
+        gPlayback.setSongIndex(static_cast<uint8_t>(clamped));
+        Serial.printf(
+            "song_index=%u song_name=%s song_count=%u\n",
+            gPlayback.songIndex(),
+            gPlayback.songName(),
+            static_cast<unsigned>(n));
         return;
     }
 
@@ -283,7 +290,7 @@ void handleControlCommand(const String &line) {
 
     if (upper == "STATUS") {
         Serial.printf(
-            "playing=%d time_ms=%lu length_ms=%lu speed=%.2f brightness=%u mode=%d playmode=%s song_index=%u song_name=%s held=0x%llx req=0x%llx\n",
+            "playing=%d time_ms=%lu length_ms=%lu speed=%.2f brightness=%u mode=%d playmode=%s song_index=%u song_name=%s song_count=%u held=0x%llx req=0x%llx\n",
             gPlayback.isPlaying() ? 1 : 0,
             static_cast<unsigned long>(gPlayback.songTimeMs()),
             static_cast<unsigned long>(gPlayback.songLengthMs()),
@@ -293,6 +300,7 @@ void handleControlCommand(const String &line) {
             gPlayback.mode() == PlaybackMode::GuidedWait ? "guided" : "continuous",
             gPlayback.songIndex(),
             gPlayback.songName(),
+            static_cast<unsigned>(gPlayback.songCount()),
             static_cast<unsigned long long>(gPlayback.heldMask()),
             static_cast<unsigned long long>(gPlayback.requiredMaskNow()));
         return;
